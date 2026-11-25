@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://geek12b.github.io/HotPotato/sitemap.xml
