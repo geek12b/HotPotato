@@ -11,19 +11,30 @@ export class RoundTimerEngine {
     this.lastTickMs = null;
   }
 
-  startRound(durationSeconds, teamIds, initialActiveTeamId) {
+  prepareRound(durationSeconds, teamIds, initialActiveTeamId) {
     this.stop();
     this.remainingSeconds = Math.max(1, Number(durationSeconds));
-    this.isRunning = true;
+    this.isRunning = false;
     this.isPaused = false;
     this.activeTeamId = initialActiveTeamId;
     this.teamSeconds = {};
     for (const id of teamIds) {
       this.teamSeconds[id] = 0;
     }
-    this.lastTickMs = performance.now();
+    this.lastTickMs = null;
+  }
 
-    this.intervalId = setInterval(() => this._step(), 100);
+  start() {
+    if (this.isRunning || this.remainingSeconds <= 0) return;
+    this.isRunning = true;
+    this.isPaused = false;
+    this.lastTickMs = performance.now();
+    this.intervalId = setInterval(() => this._step(), 50);
+  }
+
+  startRound(durationSeconds, teamIds, initialActiveTeamId) {
+    this.prepareRound(durationSeconds, teamIds, initialActiveTeamId);
+    this.start();
   }
 
   setActiveTeam(teamId) {
@@ -44,6 +55,7 @@ export class RoundTimerEngine {
     }
     this.isRunning = false;
     this.isPaused = false;
+    this.lastTickMs = null;
   }
 
   _step() {

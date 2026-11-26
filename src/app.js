@@ -143,8 +143,8 @@ async function init() {
       isMatchFinished: false
     };
 
+    timer.prepareRound(durationSec, teamIds, startSeat.teamId);
     render();
-    timer.startRound(durationSec, teamIds, startSeat.teamId);
   }
 
   function render() {
@@ -193,6 +193,9 @@ async function init() {
           },
           onRevealWord: () => {
             sound.unlock();
+            if (!timer.isRunning) {
+              timer.start();
+            }
             state.currentWord = deck.drawNextWord(state.settings.category, state.settings.difficulty);
             state.wordRevealed = true;
             render();

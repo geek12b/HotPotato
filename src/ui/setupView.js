@@ -112,7 +112,7 @@ export function renderSetupView(container, settings, onChange, onStartClick) {
 
       <div class="actions-row">
         <button id="startGameBtn" type="button" class="btn btn-primary btn-lg">
-          شروع بازی (آماده برای مرحله ۳)
+          شروع بازی
         </button>
       </div>
       <p id="setupStatus" class="status-note"></p>
